@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -26,13 +27,17 @@ export default function Navbar() {
       }`}
     >
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-        {/* Logo */}
-        <a href="#" className="text-2xl font-bold tracking-tight text-white flex items-center gap-2">
-          <div className="h-8 w-8 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center shadow-[0_0_15px_rgba(6,182,212,0.4)]">
-            <span className="text-white text-lg leading-none">Z</span>
-          </div>
-          Zensa
-        </a>
+       {/* Logo */}
+<a href="#" className="flex items-center gap-2 text-2xl font-bold tracking-tight text-white">
+  <Image 
+    src="/zensalogo.png" 
+    alt="Zensa Icon" 
+    width={32} 
+    height={32} 
+    className="object-contain w-auto"
+  />
+  Zensa
+</a>
 
         {/* Links (Hidden on Mobile for simplicity, can add a hamburger menu later) */}
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">

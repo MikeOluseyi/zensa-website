@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function Footer() {
   return (
     <footer className="relative border-t border-slate-800/60 bg-slate-950 overflow-hidden py-16 text-slate-400">
@@ -10,9 +12,16 @@ export default function Footer() {
         {/* Brand */}
         <div className="text-center lg:text-left">
           <h3 className="text-2xl font-bold text-white flex items-center justify-center lg:justify-start gap-2">
-            <div className="h-6 w-6 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center">
-               <span className="text-white text-xs leading-none">Z</span>
-            </div>
+            {/* Logo */}
+           <a href="#" className="flex items-center gap-2 text-2xl font-bold tracking-tight text-white">
+             <Image 
+               src="/zensalogo.png" 
+               alt="Zensa Icon" 
+               width={32} 
+               height={32} 
+               className="object-contain w-auto"
+             />
+           </a>
             Zensa
           </h3>
           <p className="mt-4 max-w-sm text-slate-500 leading-relaxed">

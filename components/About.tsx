@@ -14,7 +14,7 @@ export default function About() {
 
       <div className="mt-10 grid gap-12 lg:grid-cols-2">
 
-        <p className="text-lg leading-9 text-slate-600">
+        <p className="text-lg leading-9 text-white-600">
 
           Zensa provides hospitals with a full-spectrum operational
           platform and transforms routine healthcare operations into
@@ -23,7 +23,7 @@ export default function About() {
 
         </p>
 
-        <p className="text-lg leading-9 text-slate-600">
+        <p className="text-lg leading-9 text-white-600">
 
           By improving interoperability, accelerating insurance
           reimbursements and enabling data-driven supply chains,
