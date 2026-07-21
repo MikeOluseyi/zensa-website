@@ -1,8 +1,46 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 
 export default function Contact() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setStatus("idle");
+
+    // Gather form data
+    const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData.entries());
+
+    try {
+      // Send data to your Formspree endpoint
+      const response = await fetch("https://formspree.io/f/xlgqlrnp", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        setStatus("success");
+        e.currentTarget.reset(); // Clear the form on success
+      } else {
+        setStatus("error");
+      }
+    } catch (error) {
+      console.error("Form submission failed:", error);
+      setStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <section
       id="contact"
@@ -58,19 +96,25 @@ export default function Contact() {
             <h3 className="text-3xl font-bold text-white">Book a Demo</h3>
             <p className="mt-3 text-slate-400">Tell us about your organization.</p>
 
-            <form className="mt-8 space-y-5">
+            <form onSubmit={handleSubmit} className="mt-8 space-y-5">
               <input
                 type="text"
+                name="name"
+                required
                 placeholder="Full Name"
                 className="w-full rounded-xl border border-slate-800 bg-slate-950/50 p-4 text-white placeholder-slate-500 outline-none transition focus:border-blue-500 focus:bg-slate-900"
               />
               <input
                 type="email"
+                name="email"
+                required
                 placeholder="Email Address"
                 className="w-full rounded-xl border border-slate-800 bg-slate-950/50 p-4 text-white placeholder-slate-500 outline-none transition focus:border-blue-500 focus:bg-slate-900"
               />
               <input
                 type="text"
+                name="organization"
+                required
                 placeholder="Organization"
                 className="w-full rounded-xl border border-slate-800 bg-slate-950/50 p-4 text-white placeholder-slate-500 outline-none transition focus:border-blue-500 focus:bg-slate-900"
               />
@@ -82,6 +126,7 @@ export default function Contact() {
                 <select
                   id="organizationType"
                   name="organizationType"
+                  required
                   className="w-full rounded-xl border border-slate-800 bg-slate-950/50 p-4 text-white outline-none transition focus:border-blue-500 focus:bg-slate-900 appearance-none"
                 >
                   <option value="" className="bg-slate-900 text-slate-400">Select organization type</option>
@@ -94,17 +139,32 @@ export default function Contact() {
               </div>
 
               <textarea
+                name="message"
                 rows={4}
+                required
                 placeholder="How can we help?"
                 className="w-full rounded-xl border border-slate-800 bg-slate-950/50 p-4 text-white placeholder-slate-500 outline-none transition focus:border-blue-500 focus:bg-slate-900 resize-none"
               />
 
               <button
-                type="button"
-                className="w-full rounded-xl bg-blue-600 py-4 font-semibold text-white shadow-[0_0_30px_-10px_rgba(37,99,235,0.4)] transition-all hover:bg-blue-500 hover:shadow-[0_0_40px_-10px_rgba(37,99,235,0.6)] hover:-translate-y-0.5"
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full flex justify-center items-center rounded-xl bg-blue-600 py-4 font-semibold text-white shadow-[0_0_30px_-10px_rgba(37,99,235,0.4)] transition-all hover:bg-blue-500 hover:shadow-[0_0_40px_-10px_rgba(37,99,235,0.6)] hover:-translate-y-0.5 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:translate-y-0"
               >
-                Request Demo
+                {isSubmitting ? "Sending Request..." : "Request Demo"}
               </button>
+
+              {/* Status Messages */}
+              {status === "success" && (
+                <p className="text-green-400 text-sm text-center mt-4">
+                  Request sent successfully! We will be in touch soon.
+                </p>
+              )}
+              {status === "error" && (
+                <p className="text-red-400 text-sm text-center mt-4">
+                  Something went wrong. Please try again or email us directly.
+                </p>
+              )}
             </form>
           </motion.div>
 
