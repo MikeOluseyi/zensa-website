@@ -12,19 +12,18 @@ export default function Contact() {
     setIsSubmitting(true);
     setStatus("idle");
 
-    // Gather form data
+    // Gather form data natively
     const formData = new FormData(e.currentTarget);
-    const data = Object.fromEntries(formData.entries());
 
     try {
-      // Send data to your Formspree endpoint
+      // Send data to your Formspree endpoint using standard FormData
       const response = await fetch("https://formspree.io/f/xlgqlrnp", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
           "Accept": "application/json"
+          // ⚠️ Notice we REMOVED the "Content-Type": "application/json" header here
         },
-        body: JSON.stringify(data),
+        body: formData, // ⚠️ Pass formData directly instead of JSON.stringify()
       });
 
       if (response.ok) {
